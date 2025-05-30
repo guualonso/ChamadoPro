@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.chamadopro.controller.DashboardController">
+
+    <Label fx:id="labelBoasVindas" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <!-- Painel do ADMINISTRADOR -->
+    <VBox fx:id="painelAdmin" visible="false" spacing="10">
+        <Label text="Painel do Administrador"/>
+        <Button text="Gerenciar Usuários" onAction="#abrirTelaGerenciarUsuarios"/>
+    </VBox>
+
+    <!-- Painel do TÉCNICO -->
+    <VBox fx:id="painelTecnico" visible="false" spacing="10">
+        <Label text="Painel do Técnico"/>
+        <Button text="Atualizar Status" onAction="#abrirTelaAtualizarChamado"/>
+    </VBox>
+
+    <!-- Painel do CLIENTE -->
+    <VBox fx:id="painelCliente" visible="false" spacing="10">
+        <Label text="Painel do Cliente"/>
+        <Button text="Abrir Novo Chamado" onAction="#abrirTelaChamado"/>
+        <Button text="Acompanhar Chamados" onAction="#abrirTelaAcompanhamento"/>
+    </VBox>
+    <Button text="Sair" onAction="#sair"/>
+</VBox>
