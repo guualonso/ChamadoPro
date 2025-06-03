@@ -78,9 +78,9 @@ src/
 1. **Crie o arquivo** `src/main/resources/database.properties`:
 
 ```properties
-db.url=jdbc:postgresql://localhost:5432/chamadopro
-db.user=postgres
-db.password=alonso
+db.url=jdbc:sua-url
+db.user=seu-usuario
+db.password=sua-senha
 ```
 
 2. **Importe o script SQL** com a estrutura do banco (caso exista).
