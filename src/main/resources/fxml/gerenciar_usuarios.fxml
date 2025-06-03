@@ -18,4 +18,7 @@
 
     <Button text="Cadastrar Usuário" onAction="#cadastrarUsuario"/>
 
+    <Separator prefWidth="300"/>
+
+    <Label fx:id="lblMediaAvaliacao" text="Média de avaliações: 0.0" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
 </VBox>

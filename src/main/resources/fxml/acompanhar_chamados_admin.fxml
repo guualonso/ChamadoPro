@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.chamadopro.controller.AcompanharChamadosAdminController">
+
+    <Label text="Todos os Chamados" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10" alignment="CENTER">
+        <ComboBox fx:id="comboUsuario" promptText="Filtrar por solicitante" />
+        <ComboBox fx:id="comboStatus" promptText="Filtrar por status" />
+        <TextField fx:id="campoTitulo" promptText="Buscar por título..." />
+        <Button text="Aplicar Filtros" onAction="#aplicarFiltros" />
+        <Button text="Ver Detalhes" onAction="#abrirDetalhesChamado" />
+    </HBox>
+
+    <ListView fx:id="listChamados" prefHeight="300" prefWidth="500"/>
+</VBox>

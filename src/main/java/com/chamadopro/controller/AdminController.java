@@ -1,6 +1,8 @@
 package com.chamadopro.controller;
 
+import com.chamadopro.dao.ChamadoDAO;
 import com.chamadopro.dao.UsuarioDAO;
+import com.chamadopro.model.Chamado;
 import com.chamadopro.model.TipoUsuario;
 import com.chamadopro.model.Usuario;
 import javafx.collections.FXCollections;
@@ -8,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AdminController {
 
@@ -20,12 +23,17 @@ public class AdminController {
     @FXML
     private ComboBox<TipoUsuario> tipoUsuarioCombo;
 
-    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    @FXML
+    private Label lblMediaAvaliacao;
+
+    private final UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+
 
     @FXML
     private void initialize() {
         tipoUsuarioCombo.setItems(FXCollections.observableArrayList(TipoUsuario.values()));
         atualizarLista();
+        atualizarMedia();
     }
 
     private void atualizarLista() {
@@ -60,6 +68,23 @@ public class AdminController {
         emailField.clear();
         senhaField.clear();
         tipoUsuarioCombo.getSelectionModel().clearSelection();
+    }
+
+    private double calcularMediaAvaliacao() {
+        List<Chamado> chamados = ChamadoDAO.getInstance().buscarTodos();
+        List<Integer> notas = chamados.stream()
+                .map(Chamado::getAvaliacao)
+                .filter(Objects::nonNull)
+                .toList();
+
+        if (notas.isEmpty()) return 0.0;
+        double soma = notas.stream().mapToInt(Integer::intValue).sum();
+        return soma / (double) notas.size();
+    }
+
+    private void atualizarMedia() {
+        double media = calcularMediaAvaliacao();
+        lblMediaAvaliacao.setText(String.format("Média de avaliações: %.2f", media));
     }
 
     private void showAlert(String msg, Alert.AlertType tipo) {

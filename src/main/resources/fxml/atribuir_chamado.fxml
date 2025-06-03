@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.chamadopro.controller.AtribuirChamadoController"
+      spacing="10" alignment="CENTER" prefWidth="400">
+
+    <Label text="Atribuir Técnico a Chamado" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <ListView fx:id="listChamados" prefHeight="200" />
+    <ComboBox fx:id="comboTecnicos" promptText="Selecionar Técnico" />
+    <Button text="Atribuir Técnico" onAction="#atribuirTecnico"/>
+</VBox>

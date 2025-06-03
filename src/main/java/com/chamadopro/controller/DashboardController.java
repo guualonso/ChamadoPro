@@ -6,11 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DashboardController {
 
@@ -18,94 +21,117 @@ public class DashboardController {
     private Label labelBoasVindas;
 
     @FXML
-    private VBox painelAdmin;
-
-    @FXML
-    private VBox painelTecnico;
-
-    @FXML
-    private VBox painelCliente;
+    private VBox painelContainer;
 
     private Usuario usuarioLogado;
 
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
         labelBoasVindas.setText("Bem-vindo(a), " + usuario.getNome() + "!");
-        mostrarPainelPorTipo(usuario.getTipo());
+        montarPainelPorTipo(usuario.getTipo());
     }
 
-    private void mostrarPainelPorTipo(TipoUsuario tipo) {
-        painelAdmin.setVisible(tipo == TipoUsuario.ADMIN);
-        painelTecnico.setVisible(tipo == TipoUsuario.TECNICO);
-        painelCliente.setVisible(tipo == TipoUsuario.CLIENTE);
+    private void montarPainelPorTipo(TipoUsuario tipo) {
+        painelContainer.getChildren().clear();
+
+        switch (tipo) {
+            case ADMIN -> {
+                adicionarBotao("Gerenciar Usuários", this::abrirTelaGerenciarUsuarios);
+                adicionarBotao("Atribuir Técnico", this::abrirTelaAtribuirChamado);
+                adicionarBotao("Visualizar Todos os Chamados", this::abrirTelaVisualizarTodosChamados);
+            }
+            case TECNICO -> adicionarBotao("Atualizar Status", this::abrirTelaAtualizarChamado);
+            case CLIENTE -> {
+                adicionarBotao("Abrir Novo Chamado", this::abrirTelaChamado);
+                adicionarBotao("Acompanhar Chamados", this::abrirTelaAcompanhamento);
+            }
+        }
     }
 
+    private void adicionarBotao(String texto, Runnable acao) {
+        Button botao = new Button(texto);
+        botao.getStyleClass().add("card-button");
+        botao.setOnAction(e -> acao.run());
+        painelContainer.getChildren().add(botao);
+    }
 
-    @FXML
-    private void abrirTelaChamado() {
+    private void abrirNovaJanela(String caminho, String titulo) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/abrir_chamado.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
             Parent root = loader.load();
-
-            ChamadoController controller = loader.getController();
-            controller.setUsuarioLogado(usuarioLogado); // agora vai funcionar
-
             Stage stage = new Stage();
-            stage.setTitle("Novo Chamado");
+            stage.setTitle(titulo);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
         }
+    }
+
+    private void abrirNovaJanelaComUsuario(String caminho, String titulo) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+
+            if (controller instanceof AcompanharChamadosController c) {
+                c.setUsuarioLogado(usuarioLogado);
+            } else if (controller instanceof AtualizarChamadoController c) {
+                c.setTecnicoLogado(usuarioLogado);
+            } else if (controller instanceof AbrirChamadoController c) {
+                c.setUsuarioLogado(usuarioLogado);
+            }
+
+            Stage stage = new Stage();
+            stage.setTitle(titulo);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    @FXML
+    private void abrirTelaChamado() {
+        abrirNovaJanelaComUsuario("/fxml/abrir_chamado.fxml", "Novo Chamado");
     }
 
     @FXML
     private void abrirTelaAcompanhamento() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/acompanhar_chamados.fxml"));
-            Parent root = loader.load();
-
-            AcompanharChamadosController controller = loader.getController();
-            controller.setUsuarioLogado(usuarioLogado);
-
-            Stage stage = new Stage();
-            stage.setTitle("Acompanhamento de Chamados");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        abrirNovaJanelaComUsuario("/fxml/acompanhar_chamados.fxml", "Acompanhar Chamados");
     }
 
     @FXML
     private void abrirTelaAtualizarChamado() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/atualizar_chamado.fxml"));
-            Parent root = loader.load();
-
-            AtualizarChamadoController controller = loader.getController();
-            controller.setTecnicoLogado(usuarioLogado);
-
-            Stage stage = new Stage();
-            stage.setTitle("Atualizar Chamado");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        abrirNovaJanelaComUsuario("/fxml/atualizar_chamado.fxml", "Atualizar Chamado");
     }
 
     @FXML
     private void abrirTelaGerenciarUsuarios() {
+        abrirNovaJanela("/fxml/gerenciar_usuarios.fxml", "Gerenciar Usuários");
+    }
+
+    @FXML
+    private void abrirTelaAtribuirChamado() {
+        abrirNovaJanela("/fxml/atribuir_chamado.fxml", "Atribuir Técnico");
+    }
+
+    @FXML
+    private void abrirTelaVisualizarTodosChamados() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gerenciar_usuarios.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/acompanhar_chamados_admin.fxml"));
             Parent root = loader.load();
+
+            AcompanharChamadosAdminController controller = loader.getController();
+            controller.setUsuarioLogado(usuarioLogado);
+
             Stage stage = new Stage();
-            stage.setTitle("Gerenciar Usuários");
+            stage.setTitle("Todos os Chamados");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -114,12 +140,11 @@ public class DashboardController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent root = loader.load();
-
             Stage stage = (Stage) labelBoasVindas.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("ChamadoPro - Login");
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
         }
     }
 }

@@ -3,15 +3,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.chamadopro.controller.ChamadoController">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.chamadopro.controller.AbrirChamadoController"
+            style="-fx-padding: 40;">
 
-    <Label text="Abertura de Chamado" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <center>
+        <VBox spacing="20" alignment="CENTER">
+            <Label text="Abrir Novo Chamado"
+                   style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
 
-    <TextField fx:id="tituloField" promptText="Título do problema" maxWidth="300"/>
-    <TextArea fx:id="descricaoField" promptText="Descreva o problema..." prefHeight="100" maxWidth="300"/>
+            <TextField fx:id="tituloField"
+                       promptText="Título do problema"
+                       prefWidth="400" prefHeight="40"
+                       style="-fx-font-size: 14px;"/>
 
-    <Button text="Abrir Chamado" onAction="#handleAbrirChamado"/>
+            <TextArea fx:id="descricaoField"
+                      promptText="Descreva o problema..."
+                      prefWidth="400" prefHeight="120"
+                      style="-fx-font-size: 14px;"/>
 
-</VBox>
+            <ComboBox fx:id="comboCategoria"
+                      promptText="Categoria do problema"
+                      prefWidth="400" prefHeight="40"
+                      style="-fx-font-size: 14px;"/>
+
+            <Button text="Abrir Chamado"
+                    onAction="#handleAbrirChamado"
+                    prefWidth="200" prefHeight="40"
+                    style="-fx-font-size: 14px;"/>
+        </VBox>
+    </center>
+
+</BorderPane>

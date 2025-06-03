@@ -7,7 +7,23 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.chamadopro.controller.AcompanharChamadosController">
 
-    <Label text="Meus Chamados" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-    <ListView fx:id="listChamados" prefHeight="200" prefWidth="300"/>
+    <Label text="Meus Chamados" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
 
+    <HBox spacing="10" alignment="CENTER">
+        <ComboBox fx:id="statusFilter" promptText="Status" />
+        <ComboBox fx:id="categoriaFilter" promptText="Categoria" />
+        <TextField fx:id="tituloFilter" promptText="Buscar por título..." />
+        <Button text="Aplicar Filtros" onAction="#aplicarFiltros" />
+    </HBox>
+
+    <ListView fx:id="listChamados" prefHeight="300" prefWidth="450"/>
+    <Button text="Ver Detalhes" onAction="#abrirDetalhesChamado"/>
+
+    <VBox fx:id="feedbackBox" spacing="5" visible="false">
+        <Label text="Avaliação:"/>
+        <ComboBox fx:id="comboNota" promptText="Nota de 1 a 5"/>
+        <TextArea fx:id="txtFeedback" promptText="Descreva seu feedback..."/>
+        <Button text="Enviar Avaliação" onAction="#enviarAvaliacao"/>
+        <Label fx:id="lblAvaliacaoCliente"/>
+    </VBox>
 </VBox>
