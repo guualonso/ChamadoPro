@@ -1,10 +1,10 @@
 package com.chamadopro.controller;
 
-import com.chamadopro.dao.ChamadoDAO;
-import com.chamadopro.dao.UsuarioDAO;
 import com.chamadopro.model.Chamado;
 import com.chamadopro.model.TipoUsuario;
 import com.chamadopro.model.Usuario;
+import com.chamadopro.service.ChamadoService;
+import com.chamadopro.service.UsuarioService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -20,18 +20,18 @@ public class AtribuirChamadoController {
     @FXML
     private ComboBox<Usuario> comboTecnicos;
 
-    private final ChamadoDAO chamadoDAO = ChamadoDAO.getInstance();
-    private final UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+    private final ChamadoService chamadoService = ChamadoService.getInstance();
+    private final UsuarioService usuarioService = UsuarioService.getInstance();
 
     @FXML
     public void initialize() {
-        List<Chamado> chamadosSemResponsavel = chamadoDAO.buscarTodos().stream()
+        List<Chamado> chamadosSemResponsavel = chamadoService.buscarTodos().stream()
                 .filter(c -> c.getResponsavel() == null)
                 .collect(Collectors.toList());
 
         listChamados.setItems(FXCollections.observableArrayList(chamadosSemResponsavel));
 
-        List<Usuario> tecnicos = usuarioDAO.buscarTodos().stream()
+        List<Usuario> tecnicos = usuarioService.listarTodos().stream()
                 .filter(u -> u.getTipo() == TipoUsuario.TECNICO)
                 .collect(Collectors.toList());
 
@@ -45,6 +45,7 @@ public class AtribuirChamadoController {
 
         if (chamado != null && tecnico != null) {
             chamado.setResponsavel(tecnico);
+            chamadoService.salvar(chamado);
             listChamados.getItems().remove(chamado);
             showAlert("Técnico atribuído com sucesso!", Alert.AlertType.INFORMATION);
         } else {

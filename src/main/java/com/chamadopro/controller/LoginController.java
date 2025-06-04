@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class LoginController {
 
@@ -42,7 +43,7 @@ public class LoginController {
                 controller.setUsuarioLogado(usuario);
                 Stage stage = (Stage) emailField.getScene().getWindow();
                 Scene dashboardScene = new Scene(root, 1366, 768);
-                dashboardScene.getStylesheets().add(getClass().getResource("/css/estilo.css").toExternalForm());
+                dashboardScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/estilo.css")).toExternalForm());
 
                 stage.setScene(dashboardScene);
 
@@ -53,21 +54,21 @@ public class LoginController {
                 stage.setResizable(true);
 
             } catch (IOException e) {
-                showAlert("Erro ao carregar o painel: " + e.getMessage(), Alert.AlertType.ERROR);
+                showAlert("Erro ao carregar o painel: " + e.getMessage());
             }
         } else {
-            showAlert("Credenciais inválidas.", Alert.AlertType.ERROR);
+            showAlert("Credenciais inválidas.");
         }
     }
 
     @FXML
     public void initialize() {
-        logoImage.setImage(new Image(getClass().getResourceAsStream("/images/logo.png")));
+        logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/logo.png"))));
     }
 
 
-    private void showAlert(String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Login");
         alert.setHeaderText(null);
         alert.setContentText(message);

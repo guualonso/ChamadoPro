@@ -1,11 +1,8 @@
 package com.chamadopro.controller;
 
-import com.chamadopro.dao.ChamadoDAO;
-import com.chamadopro.dao.UsuarioDAO;
-import com.chamadopro.model.Chamado;
-import com.chamadopro.model.StatusChamado;
-import com.chamadopro.model.TipoUsuario;
-import com.chamadopro.model.Usuario;
+import com.chamadopro.model.*;
+import com.chamadopro.service.ChamadoService;
+import com.chamadopro.service.UsuarioService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,11 +31,12 @@ public class AcompanharChamadosAdminController {
 
     private Usuario usuarioLogado;
 
+    private final UsuarioService usuarioService = UsuarioService.getInstance();
+    private final ChamadoService chamadoService = ChamadoService.getInstance();
+
     @FXML
     public void initialize() {
-        List<Usuario> clientes = UsuarioDAO.getInstance().buscarTodos().stream()
-                .filter(u -> u.getTipo() == TipoUsuario.CLIENTE)
-                .collect(Collectors.toList());
+        List<Usuario> clientes = usuarioService.buscarClientes();
 
         comboUsuario.setItems(FXCollections.observableArrayList(clientes));
         comboStatus.setItems(FXCollections.observableArrayList(StatusChamado.values()));
@@ -52,11 +50,11 @@ public class AcompanharChamadosAdminController {
 
     @FXML
     public void aplicarFiltros() {
-        List<Chamado> todos = ChamadoDAO.getInstance().buscarTodos();
+        List<Chamado> todos = chamadoService.buscarTodos();
 
         Usuario clienteSelecionado = comboUsuario.getValue();
         StatusChamado statusSelecionado = comboStatus.getValue();
-        String buscaTitulo = campoTitulo.getText().toLowerCase();
+        String buscaTitulo = campoTitulo.getText() != null ? campoTitulo.getText().toLowerCase() : "";
 
         List<Chamado> filtrados = todos.stream()
                 .filter(c -> clienteSelecionado == null || c.getSolicitante().equals(clienteSelecionado))
@@ -71,6 +69,7 @@ public class AcompanharChamadosAdminController {
 
         listChamados.setItems(FXCollections.observableArrayList(linhas));
     }
+
     @FXML
     private void abrirDetalhesChamado() {
         String textoSelecionado = listChamados.getSelectionModel().getSelectedItem();
@@ -79,10 +78,7 @@ public class AcompanharChamadosAdminController {
         }
 
         int id = Integer.parseInt(textoSelecionado.split("-")[0].replace("#", "").trim());
-        Chamado chamado = ChamadoDAO.getInstance().buscarTodos().stream()
-                .filter(c -> c.getId() == id)
-                .findFirst()
-                .orElse(null);
+        Chamado chamado = chamadoService.buscarPorId(id);
 
         if (chamado != null) {
             try {
@@ -98,6 +94,7 @@ public class AcompanharChamadosAdminController {
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
+
             }
         }
     }

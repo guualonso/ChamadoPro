@@ -5,7 +5,6 @@ import com.chamadopro.model.Comentario;
 import com.chamadopro.model.Usuario;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +38,14 @@ public class ComentarioDAO {
 
     public List<Comentario> buscarPorChamado(int chamadoId) {
         List<Comentario> comentarios = new ArrayList<>();
-        String sql = "SELECT c.*, u.nome, u.email, u.tipo " +
-                "FROM comentarios c " +
-                "JOIN usuarios u ON c.autor_id = u.id " +
-                "WHERE chamado_id = ? " +
-                "ORDER BY data_hora ASC";
+        String sql = """
+                SELECT c.texto, c.data_hora, c.autor_id,
+                       u.nome, u.email, u.tipo
+                FROM comentarios c
+                JOIN usuarios u ON c.autor_id = u.id
+                WHERE c.chamado_id = ?
+                ORDER BY c.data_hora ASC
+                """;
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -56,7 +58,7 @@ public class ComentarioDAO {
                         rs.getInt("autor_id"),
                         rs.getString("nome"),
                         rs.getString("email"),
-                        "", // senha não é retornada por segurança
+                        "",
                         com.chamadopro.model.TipoUsuario.valueOf(rs.getString("tipo"))
                 );
 

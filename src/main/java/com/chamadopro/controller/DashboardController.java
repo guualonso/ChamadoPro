@@ -40,7 +40,7 @@ public class DashboardController {
                 adicionarBotao("Atribuir Técnico", this::abrirTelaAtribuirChamado);
                 adicionarBotao("Visualizar Todos os Chamados", this::abrirTelaVisualizarTodosChamados);
             }
-            case TECNICO -> adicionarBotao("Atualizar Status", this::abrirTelaAtualizarChamado);
+            case TECNICO -> adicionarBotao("Visualizar Chamados", this::abrirTelaAtualizarChamado);
             case CLIENTE -> {
                 adicionarBotao("Abrir Novo Chamado", this::abrirTelaChamado);
                 adicionarBotao("Acompanhar Chamados", this::abrirTelaAcompanhamento);

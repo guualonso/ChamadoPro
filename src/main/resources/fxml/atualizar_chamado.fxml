@@ -11,7 +11,7 @@
     <ListView fx:id="listChamados" prefHeight="200" prefWidth="400"/>
 
     <ComboBox fx:id="comboStatus" promptText="Novo status" maxWidth="200"/>
-    <Button fx:id="btnAtualizar" text="Verificar Chamados" onAction="#atualizarStatusChamado"/>
+    <Button fx:id="btnAtualizar" text="Atualizar Status" onAction="#atualizarStatusChamado"/>
     <Button text="Visualizar Chamado" onAction="#visualizarChamado"/>
     <Button text="Ver Detalhes" onAction="#abrirDetalhesChamado"/>
 

@@ -1,9 +1,7 @@
 package com.chamadopro.controller;
 
-import com.chamadopro.dao.ChamadoDAO;
-import com.chamadopro.model.Chamado;
-import com.chamadopro.model.StatusChamado;
-import com.chamadopro.model.Usuario;
+import com.chamadopro.model.*;
+import com.chamadopro.service.ChamadoService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import com.chamadopro.model.CategoriaProblema;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,6 +43,8 @@ public class AcompanharChamadosController {
 
     private Usuario usuarioLogado;
 
+    private final ChamadoService chamadoService = ChamadoService.getInstance();
+
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
         statusFilter.setItems(FXCollections.observableArrayList(StatusChamado.values()));
@@ -59,12 +58,10 @@ public class AcompanharChamadosController {
 
     @FXML
     public void aplicarFiltros() {
-        ChamadoDAO dao = ChamadoDAO.getInstance();
-        List<Chamado> chamados = dao.buscarPorSolicitante(usuarioLogado);
+        List<Chamado> chamados = chamadoService.listarChamadosPorSolicitante(usuarioLogado);
 
         StatusChamado status = statusFilter.getValue();
         String tituloBusca = tituloFilter.getText().toLowerCase();
-
         CategoriaProblema categoriaSelecionada = categoriaFilter.getValue();
 
         List<Chamado> filtrados = chamados.stream()
@@ -88,7 +85,6 @@ public class AcompanharChamadosController {
             if (chamadoSelecionado.getStatus() == StatusChamado.FECHADO) {
                 feedbackBox.setVisible(true);
 
-                // Se avaliação já existe, mostra e bloqueia novo envio
                 if (chamadoSelecionado.getAvaliacao() != null) {
                     comboNota.setDisable(true);
                     txtFeedback.setDisable(true);
@@ -111,10 +107,7 @@ public class AcompanharChamadosController {
         String textoSelecionado = listChamados.getSelectionModel().getSelectedItem();
         if (textoSelecionado != null && textoSelecionado.contains("#")) {
             int id = Integer.parseInt(textoSelecionado.split("-")[0].replace("#", "").trim());
-            return ChamadoDAO.getInstance().buscarTodos().stream()
-                    .filter(c -> c.getId() == id)
-                    .findFirst()
-                    .orElse(null);
+            return chamadoService.buscarPorId(id);
         }
         return null;
     }
@@ -128,10 +121,7 @@ public class AcompanharChamadosController {
             String feedback = txtFeedback.getText();
 
             if (nota != null) {
-                chamadoSelecionado.setAvaliacao(nota);
-                chamadoSelecionado.setFeedback(feedback);
-
-                boolean sucesso = ChamadoDAO.getInstance().salvarAvaliacao(chamadoSelecionado.getId(), nota, feedback);
+                boolean sucesso = chamadoService.avaliarChamado(chamadoSelecionado.getId(), nota, feedback);
 
                 if (sucesso) {
                     comboNota.setDisable(true);

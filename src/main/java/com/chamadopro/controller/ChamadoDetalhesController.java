@@ -2,8 +2,8 @@ package com.chamadopro.controller;
 
 import com.chamadopro.model.Chamado;
 import com.chamadopro.model.Comentario;
-import com.chamadopro.model.StatusChamado;
 import com.chamadopro.model.Usuario;
+import com.chamadopro.service.ComentarioService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,6 +36,8 @@ public class ChamadoDetalhesController {
     private Chamado chamado;
     private Usuario usuarioLogado;
 
+    private final ComentarioService comentarioService = ComentarioService.getInstance();
+
     public void setChamado(Chamado chamado, Usuario usuarioLogado) {
         this.chamado = chamado;
         this.usuarioLogado = usuarioLogado;
@@ -54,7 +56,9 @@ public class ChamadoDetalhesController {
     }
 
     private void atualizarComentarios() {
-        List<String> comentariosFormatados = chamado.getComentarios().stream()
+        List<Comentario> comentariosBanco = comentarioService.listarPorChamado(chamado.getId());
+
+        List<String> comentariosFormatados = comentariosBanco.stream()
                 .map(c -> c.getAutor().getNome() + " (" + c.getDataHoraFormatada() + "): " + c.getTexto())
                 .collect(Collectors.toList());
 
@@ -76,12 +80,15 @@ public class ChamadoDetalhesController {
         }
 
         Comentario comentario = new Comentario(novoComentario.trim(), usuarioLogado, LocalDateTime.now());
-        chamado.adicionarComentario(comentario);
+        boolean sucesso = comentarioService.adicionarComentario(chamado.getId(), comentario);
 
-        txtNovoComentario.clear();
-        atualizarComentarios();
-
-        showAlert("Comentário adicionado.", Alert.AlertType.INFORMATION);
+        if (sucesso) {
+            txtNovoComentario.clear();
+            atualizarComentarios(); // recarrega do banco
+            showAlert("Comentário adicionado.", Alert.AlertType.INFORMATION);
+        } else {
+            showAlert("Erro ao salvar o comentário no banco de dados.", Alert.AlertType.ERROR);
+        }
     }
 
     private void showAlert(String msg, Alert.AlertType tipo) {

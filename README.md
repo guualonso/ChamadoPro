@@ -1,8 +1,7 @@
+
 # 🛠️ ChamadoPro (CHP)
 
-Sistema desktop para gerenciamento de chamados técnicos, desenvolvido com **Java + JavaFX**, utilizando arquitetura em camadas, autenticação por tipo de usuário e integração com banco de dados **PostgreSQL**.
-
-> 💡 Também pode ser executado com dados simulados em memória (sem banco).
+Sistema desktop para gerenciamento de chamados técnicos, desenvolvido com **Java + JavaFX**, utilizando arquitetura MVC em camadas, autenticação por tipo de usuário e persistência com banco de dados **PostgreSQL**.
 
 ---
 
@@ -24,16 +23,17 @@ src/
 ├── config/         ← Configuração de banco de dados
 ├── controller/     ← Lógica das telas (JavaFX Controllers)
 ├── dao/            ← Camada de acesso a dados (Data Access Object)
-├── model/          ← Classes de domínio: Chamado, Usuario, Enums etc.
+├── model/          ← Classes de domínio: Chamado, Usuario, Comentário, Enums etc.
+├── service/        ← Camada de regras de negócio
 ├── resources/
 │   ├── fxml/       ← Telas em FXML
-│   ├── css/        ← Estilo visual
-│   └── images/     ← Imagens da interface (ex: logo)
+│   ├── css/        ← Estilo visual (JavaFX CSS)
+│   └── images/     ← Ícones e logos da interface
 ```
 
 ---
 
-## 👥 Usuários para teste (modo em memória)
+## 👥 Usuários de teste
 
 | Perfil   | E-mail             | Senha        |
 |----------|--------------------|--------------|
@@ -46,9 +46,10 @@ src/
 ## 🔐 Funcionalidades por perfil
 
 ### 👨‍💼 Administrador
-- Gerenciar usuários
-- Atribuir técnicos aos chamados
-- Visualizar todos os chamados
+- Cadastro e gerenciamento de usuários
+- Atribuição de técnicos aos chamados
+- Visualização de todos os chamados
+- Visualização da média de avaliações
 
 ### 🧑‍🔧 Técnico
 - Visualizar chamados atribuídos
@@ -57,8 +58,9 @@ src/
 
 ### 👤 Cliente
 - Abrir chamados
-- Acompanhar andamento
-- Avaliar atendimento
+- Acompanhar chamados abertos
+- Avaliar atendimento após resolução
+- Comentar no chamado
 
 ---
 
@@ -66,74 +68,71 @@ src/
 
 ### ✅ Pré-requisitos
 
-- JDK 17 instalado
-- PostgreSQL (caso use banco)
+- JDK 17 ou superior
+- PostgreSQL instalado e configurado
 - Maven instalado
-- IDE (IntelliJ IDEA ou VSCode com suporte a JavaFX)
+- IDE compatível (ex: IntelliJ IDEA, VS Code com JavaFX)
 
 ---
 
-### ☑️ Configurando banco de dados
+### ☑️ Configuração do banco de dados
 
-1. **Crie o arquivo** `src/main/resources/database.properties`:
+1. **Crie o arquivo de propriedades:**
 
 ```properties
-db.url=jdbc:sua-url
-db.user=seu-usuario
-db.password=sua-senha
+# src/main/resources/database.properties
+db.url=jdbc:postgresql://localhost:5432/seubanco
+db.user=seu_usuario
+db.password=sua_senha
 ```
 
-2. **Importe o script SQL** com a estrutura do banco (caso exista).
+2. **Execute o script SQL de criação de tabelas** (caso tenha um).
 
-3. **Evite versionar esse arquivo**. Adicione ao `.gitignore`:
+3. **Reinicie a sequence de IDs após limpar dados (opcional):**
 
-```
-# Dados sensíveis
-src/main/resources/database.properties
+```sql
+DELETE FROM comentarios;
+DELETE FROM chamados;
+ALTER SEQUENCE chamados_id_seq RESTART WITH 1;
 ```
 
 ---
 
-### ▶️ Executando
+### ▶️ Executando a aplicação
 
-**Via Maven:**
+**Via terminal (Maven):**
 
 ```bash
 mvn clean javafx:run
 ```
 
-**Ou via IDE:**
+**Via IDE:**
 - Defina a classe `Main` como ponto de entrada
-- Certifique-se de que o JavaFX está corretamente configurado
+- Garanta que o JavaFX está configurado corretamente nas opções de execução
 
 ---
 
-## 💡 Modo de testes (sem banco)
+## 🧪 Testes
 
-Se não configurar o banco, o sistema funcionará com dados em memória (DAOs simulados). Ideal para testes rápidos e validação da interface.
-
----
-
-## 🧪 Como testar
-
-- Faça login com os usuários de teste
-- Teste abertura de chamados, status, comentários e avaliações
-- Troque de perfil para ver diferentes funcionalidades
+- Faça login com um dos usuários de teste
+- Teste as ações por perfil (abrir, comentar, avaliar, acompanhar, etc.)
+- Alterne entre perfis para validar os controles de acesso
 
 ---
 
 ## 🎯 Futuras melhorias
 
-- Criptografia de senhas (ex: BCrypt)
-- Geração de relatórios PDF
+- Criptografia de senhas com BCrypt
 - Upload de arquivos (ex: prints de erro)
-- Filtros por data e prioridade
+- Exportação de relatórios em PDF
+- Filtro de chamados por data ou prioridade
+- Paginação para grande volume de dados
 
 ---
 
 ## 🧑‍💻 Autor
 
-**Gustavo Alonso**
+[**Gustavo Alonso**](https://github.com/guualonso)
 
 ---
 

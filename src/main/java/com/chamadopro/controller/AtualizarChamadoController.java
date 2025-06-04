@@ -1,10 +1,11 @@
 package com.chamadopro.controller;
 
-import com.chamadopro.dao.ChamadoDAO;
 import com.chamadopro.model.Chamado;
 import com.chamadopro.model.Comentario;
 import com.chamadopro.model.StatusChamado;
 import com.chamadopro.model.Usuario;
+import com.chamadopro.service.ChamadoService;
+import com.chamadopro.service.ComentarioService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,16 +35,17 @@ public class AtualizarChamadoController {
 
     private Usuario tecnicoLogado;
 
-    private ChamadoDAO chamadoDAO;
+    private final ChamadoService chamadoService = ChamadoService.getInstance();
+
+    private final ComentarioService comentarioService = ComentarioService.getInstance();
 
     public void setTecnicoLogado(Usuario tecnico) {
         this.tecnicoLogado = tecnico;
-        this.chamadoDAO = ChamadoDAO.getInstance();
         carregarChamados();
     }
 
     private void carregarChamados() {
-        List<Chamado> chamados = chamadoDAO.buscarPorResponsavel(tecnicoLogado);
+        List<Chamado> chamados = chamadoService.listarChamadosPorResponsavel(tecnicoLogado);
         ObservableList<Chamado> obsList = FXCollections.observableArrayList(chamados);
         listChamados.setItems(obsList);
     }
@@ -62,14 +64,13 @@ public class AtualizarChamadoController {
         StatusChamado novoStatus = comboStatus.getValue();
 
         if (chamadoSelecionado != null && novoStatus != null) {
-            chamadoSelecionado.setStatus(novoStatus); // atualiza em memória
-            chamadoDAO.atualizarStatus(chamadoSelecionado.getId(), novoStatus);
+            chamadoSelecionado.setStatus(novoStatus);
+            chamadoService.atualizarStatusChamado(chamadoSelecionado.getId(), novoStatus);
             showAlert("Status atualizado com sucesso!", Alert.AlertType.INFORMATION);
         } else {
             showAlert("Selecione um chamado e um novo status.", Alert.AlertType.WARNING);
         }
     }
-
 
     @FXML
     private void visualizarChamado() {
@@ -97,10 +98,15 @@ public class AtualizarChamadoController {
 
         if (chamadoSelecionado != null && textoComentario != null && !textoComentario.isEmpty()) {
             Comentario comentario = new Comentario(textoComentario, tecnicoLogado, LocalDateTime.now());
-            chamadoSelecionado.adicionarComentario(comentario);
 
-            showAlert("Comentário adicionado com sucesso!", Alert.AlertType.INFORMATION);
-            txtComentario.clear();
+            boolean sucesso = comentarioService.adicionarComentario(chamadoSelecionado.getId(), comentario);
+
+            if (sucesso) {
+                showAlert("Comentário adicionado com sucesso!", Alert.AlertType.INFORMATION);
+                txtComentario.clear();
+            } else {
+                showAlert("Erro ao salvar o comentário.", Alert.AlertType.ERROR);
+            }
         } else {
             showAlert("Selecione um chamado e insira um comentário.", Alert.AlertType.WARNING);
         }

@@ -29,13 +29,7 @@ public class UsuarioDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Usuario(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("email"),
-                        rs.getString("senha"),
-                        TipoUsuario.valueOf(rs.getString("tipo"))
-                );
+                return mapUsuario(rs);
             }
 
         } catch (SQLException e) {
@@ -44,7 +38,6 @@ public class UsuarioDAO {
 
         return null;
     }
-
 
     public boolean salvar(Usuario usuario) {
         String sql = "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
@@ -107,6 +100,29 @@ public class UsuarioDAO {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 return mapUsuario(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Usuario buscarPorId(int id) {
+        String sql = "SELECT * FROM usuarios WHERE id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("senha"),
+                        TipoUsuario.valueOf(rs.getString("tipo"))
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();

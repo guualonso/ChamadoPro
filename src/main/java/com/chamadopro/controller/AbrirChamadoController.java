@@ -1,17 +1,11 @@
 package com.chamadopro.controller;
 
-import com.chamadopro.dao.ChamadoDAO;
-import com.chamadopro.dao.UsuarioDAO;
-import com.chamadopro.model.CategoriaProblema;
-import com.chamadopro.model.Chamado;
-import com.chamadopro.model.StatusChamado;
-import com.chamadopro.model.Usuario;
+import com.chamadopro.model.*;
+import com.chamadopro.service.ChamadoService;
+import com.chamadopro.service.UsuarioService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.time.LocalDateTime;
 
@@ -27,6 +21,10 @@ public class AbrirChamadoController {
     private ComboBox<CategoriaProblema> comboCategoria;
 
     private Usuario usuarioLogado;
+
+
+    private final UsuarioService usuarioService = UsuarioService.getInstance();
+    private final ChamadoService chamadoService = ChamadoService.getInstance();
 
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
@@ -53,7 +51,7 @@ public class AbrirChamadoController {
             return;
         }
 
-        Usuario tecnico = UsuarioDAO.getInstance().buscarPrimeiroTecnicoDisponivel();
+        Usuario tecnico = usuarioService.buscarPrimeiroTecnicoDisponivel();
 
         if (tecnico == null) {
             showAlert("Nenhum técnico disponível no momento.", Alert.AlertType.WARNING);
@@ -71,7 +69,7 @@ public class AbrirChamadoController {
                 categoria
         );
 
-        boolean sucesso = ChamadoDAO.getInstance().salvar(novoChamado);
+        boolean sucesso = chamadoService.salvar(novoChamado);
 
         if (sucesso) {
             showAlert("Chamado aberto e técnico atribuído com sucesso!", Alert.AlertType.INFORMATION);

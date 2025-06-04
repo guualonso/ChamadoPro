@@ -1,10 +1,8 @@
 package com.chamadopro.controller;
 
-import com.chamadopro.dao.ChamadoDAO;
-import com.chamadopro.dao.UsuarioDAO;
-import com.chamadopro.model.Chamado;
-import com.chamadopro.model.TipoUsuario;
-import com.chamadopro.model.Usuario;
+import com.chamadopro.model.*;
+import com.chamadopro.service.ChamadoService;
+import com.chamadopro.service.UsuarioService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -26,8 +24,8 @@ public class AdminController {
     @FXML
     private Label lblMediaAvaliacao;
 
-    private final UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
-
+    private final UsuarioService usuarioService = UsuarioService.getInstance();
+    private final ChamadoService chamadoService = ChamadoService.getInstance();
 
     @FXML
     private void initialize() {
@@ -37,7 +35,7 @@ public class AdminController {
     }
 
     private void atualizarLista() {
-        List<Usuario> usuarios = usuarioDAO.buscarTodos();
+        List<Usuario> usuarios = usuarioService.listarTodos();
         listaUsuarios.getItems().clear();
         for (Usuario u : usuarios) {
             listaUsuarios.getItems().add(u.getNome() + " - " + u.getTipo());
@@ -57,10 +55,15 @@ public class AdminController {
         }
 
         Usuario novo = new Usuario(0, nome, email, senha, tipo);
-        usuarioDAO.salvar(novo);
-        atualizarLista();
-        limparCampos();
-        showAlert("Usuário cadastrado!", Alert.AlertType.INFORMATION);
+        boolean sucesso = usuarioService.salvar(novo);
+
+        if (sucesso) {
+            atualizarLista();
+            limparCampos();
+            showAlert("Usuário cadastrado!", Alert.AlertType.INFORMATION);
+        } else {
+            showAlert("Erro ao cadastrar usuário!", Alert.AlertType.ERROR);
+        }
     }
 
     private void limparCampos() {
@@ -71,7 +74,7 @@ public class AdminController {
     }
 
     private double calcularMediaAvaliacao() {
-        List<Chamado> chamados = ChamadoDAO.getInstance().buscarTodos();
+        List<Chamado> chamados = chamadoService.buscarTodos();
         List<Integer> notas = chamados.stream()
                 .map(Chamado::getAvaliacao)
                 .filter(Objects::nonNull)
