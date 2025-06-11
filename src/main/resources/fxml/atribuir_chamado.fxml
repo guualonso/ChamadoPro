@@ -6,10 +6,15 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.chamadopro.controller.AtribuirChamadoController"
-      spacing="10" alignment="CENTER" prefWidth="400">
+      stylesheets="@/css/atribuir_chamado.css"
+      spacing="20" alignment="CENTER" prefWidth="400"
+      styleClass="main-container">
 
-    <Label text="Atribuir Técnico a Chamado" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-    <ListView fx:id="listChamados" prefHeight="200" />
+    <Label text="Atribuir Técnico a Chamado" styleClass="header-label"/>
+
+    <ListView fx:id="listChamados" prefHeight="200" styleClass="card"/>
+
     <ComboBox fx:id="comboTecnicos" promptText="Selecionar Técnico" />
-    <Button text="Atribuir Técnico" onAction="#atribuirTecnico"/>
+
+    <Button text="Atribuir Técnico" onAction="#atribuirTecnico" styleClass="button"/>
 </VBox>

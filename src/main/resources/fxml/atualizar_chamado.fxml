@@ -3,17 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
+<VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.chamadopro.controller.AtualizarChamadoController">
+      fx:controller="com.chamadopro.controller.AtualizarChamadoController"
+      stylesheets="@/css/atualizar_chamado.css"
+      styleClass="main-container">
 
-    <Label text="Chamados Atribuídos" style="-fx-font-size: 16px; -fx-font-wusuaeight: bold;"/>
-    <ListView fx:id="listChamados" prefHeight="200" prefWidth="400"/>
+    <Label text="Chamados Atribuídos" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+    <ListView fx:id="listChamados" prefHeight="200" prefWidth="400" styleClass="card"/>
 
     <ComboBox fx:id="comboStatus" promptText="Novo status" maxWidth="200"/>
-    <Button fx:id="btnAtualizar" text="Atualizar Status" onAction="#atualizarStatusChamado"/>
-    <Button text="Visualizar Chamado" onAction="#visualizarChamado"/>
-    <Button text="Ver Detalhes" onAction="#abrirDetalhesChamado"/>
 
-
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="btnAtualizar" text="Atualizar Status" onAction="#atualizarStatusChamado" styleClass="button"/>
+        <Button text="Visualizar Chamado" onAction="#visualizarChamado" styleClass="button"/>
+        <Button text="Ver Detalhes" onAction="#abrirDetalhesChamado" styleClass="button"/>
+    </HBox>
 </VBox>

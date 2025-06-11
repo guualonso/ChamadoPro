@@ -1,0 +1,49 @@
+.root, .main-container {
+    -fx-background-color: #f5f7fa;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-padding: 60;
+}
+
+.title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #263238;
+}
+
+.subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #546e7a;
+    -fx-padding: 0 0 10 0;
+}
+
+.input {
+    -fx-pref-width: 150;
+    -fx-pref-height: 60;
+    -fx-font-size: 16px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #cfd8dc;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 1);
+    -fx-padding: 0 12 0 12;
+}
+
+.input:focused {
+    -fx-border-color: #26c6da;
+}
+
+.button {
+    -fx-background-color: #26c6da;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-pref-width: 140;
+    -fx-pref-height: 38;
+}
+
+.button:hover {
+    -fx-background-color: #00acc1;
+}

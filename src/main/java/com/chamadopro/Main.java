@@ -14,12 +14,12 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/login.fxml")));
         Scene scene = new Scene(root);
 
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/estilo.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/dashboard.css")).toExternalForm());
 
         stage.setScene(scene);
         stage.setTitle("ChamadoPro");
 
-        stage.setWidth(1366);
+        stage.setWidth(1360);
         stage.setHeight(768);
         stage.setResizable(true);
 

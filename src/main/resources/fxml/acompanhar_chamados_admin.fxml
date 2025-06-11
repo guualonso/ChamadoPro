@@ -3,19 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
+<VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.chamadopro.controller.AcompanharChamadosAdminController">
+      fx:controller="com.chamadopro.controller.AcompanharChamadosAdminController"
+      stylesheets="@/css/acompanhar_chamados_admin.css"
+      styleClass="main-container">
 
-    <Label text="Todos os Chamados" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+    <Label text="Todos os Chamados" styleClass="header-label"/>
 
-    <HBox spacing="10" alignment="CENTER">
+    <HBox spacing="10" alignment="CENTER" styleClass="filter-box">
         <ComboBox fx:id="comboUsuario" promptText="Filtrar por solicitante" />
         <ComboBox fx:id="comboStatus" promptText="Filtrar por status" />
         <TextField fx:id="campoTitulo" promptText="Buscar por título..." />
-        <Button text="Aplicar Filtros" onAction="#aplicarFiltros" />
-        <Button text="Ver Detalhes" onAction="#abrirDetalhesChamado" />
+        <Button text="Aplicar Filtros" onAction="#aplicarFiltros" styleClass="button"/>
+        <Button text="Ver Detalhes" onAction="#abrirDetalhesChamado" styleClass="button"/>
     </HBox>
 
-    <ListView fx:id="listChamados" prefHeight="300" prefWidth="500"/>
+    <ListView fx:id="listChamados" prefHeight="300" prefWidth="500" styleClass="card"/>
 </VBox>

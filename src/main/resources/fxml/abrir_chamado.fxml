@@ -6,33 +6,28 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.chamadopro.controller.AbrirChamadoController"
-            style="-fx-padding: 40;">
+            stylesheets="@/css/abrir_chamado.css"
+            styleClass="fundo">
 
     <center>
-        <VBox spacing="20" alignment="CENTER">
-            <Label text="Abrir Novo Chamado"
-                   style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+        <VBox spacing="20" alignment="CENTER" styleClass="card-login">
+            <Label text="Abrir Novo Chamado" styleClass="titulo"/>
 
             <TextField fx:id="tituloField"
                        promptText="Título do problema"
-                       prefWidth="400" prefHeight="40"
-                       style="-fx-font-size: 14px;"/>
+                       styleClass="campo"/>
 
             <TextArea fx:id="descricaoField"
                       promptText="Descreva o problema..."
-                      prefWidth="400" prefHeight="120"
-                      style="-fx-font-size: 14px;"/>
+                      styleClass="campo-textarea"/>
 
             <ComboBox fx:id="comboCategoria"
                       promptText="Categoria do problema"
-                      prefWidth="400" prefHeight="40"
-                      style="-fx-font-size: 14px;"/>
+                      styleClass="campo"/>
 
             <Button text="Abrir Chamado"
                     onAction="#handleAbrirChamado"
-                    prefWidth="200" prefHeight="40"
-                    style="-fx-font-size: 14px;"/>
+                    styleClass="botao"/>
         </VBox>
     </center>
-
 </BorderPane>

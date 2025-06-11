@@ -1,0 +1,46 @@
+.fundo {
+    -fx-background-color: linear-gradient(to bottom, #f0f2f5, #d9dbe0);
+    -fx-padding: 40;
+}
+
+.card-login {
+    -fx-background-color: white;
+    -fx-padding: 40;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0.3, 0, 4);
+}
+
+.titulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.campo, .campo-textarea {
+    -fx-pref-width: 400;
+    -fx-pref-height: 40;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 8;
+    -fx-border-color: #ccc;
+}
+
+.campo-textarea {
+    -fx-pref-height: 120;
+}
+
+.botao {
+    -fx-pref-width: 200;
+    -fx-pref-height: 40;
+    -fx-font-size: 14px;
+    -fx-background-color: #0066cc;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.botao:hover {
+    -fx-background-color: #005bb5;
+}

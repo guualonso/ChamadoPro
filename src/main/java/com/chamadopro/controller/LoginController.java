@@ -43,11 +43,11 @@ public class LoginController {
                 controller.setUsuarioLogado(usuario);
                 Stage stage = (Stage) emailField.getScene().getWindow();
                 Scene dashboardScene = new Scene(root, 1366, 768);
-                dashboardScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/estilo.css")).toExternalForm());
+                dashboardScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/dashboard.css")).toExternalForm());
 
                 stage.setScene(dashboardScene);
 
-                stage.setWidth(1366);
+                stage.setWidth(1360);
                 stage.setHeight(768);
                 stage.setMinWidth(1024);
                 stage.setMinHeight(600);

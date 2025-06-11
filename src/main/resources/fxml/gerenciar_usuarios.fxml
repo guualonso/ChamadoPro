@@ -3,22 +3,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
+<VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.chamadopro.controller.AdminController">
+      fx:controller="com.chamadopro.controller.AdminController"
+      stylesheets="@/css/gerenciar_usuarios.css"
+      styleClass="main-container">
 
-    <Label text="Gerenciamento de Usuários" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <Label text="Gerenciamento de Usuários" styleClass="title"/>
 
-    <ListView fx:id="listaUsuarios" prefHeight="150" prefWidth="300"/>
+    <ListView fx:id="listaUsuarios" prefHeight="150" prefWidth="320" styleClass="card-list"/>
 
-    <TextField fx:id="nomeField" promptText="Nome"/>
-    <TextField fx:id="emailField" promptText="Email"/>
-    <PasswordField fx:id="senhaField" promptText="Senha"/>
-    <ComboBox fx:id="tipoUsuarioCombo" promptText="Tipo de Usuário"/>
+    <VBox spacing="10" alignment="CENTER" styleClass="form">
+        <TextField fx:id="nomeField" promptText="Nome" styleClass="input"/>
+        <TextField fx:id="emailField" promptText="Email" styleClass="input"/>
+        <PasswordField fx:id="senhaField" promptText="Senha" styleClass="input"/>
+        <ComboBox fx:id="tipoUsuarioCombo" promptText="Tipo de Usuário" styleClass="input"/>
+        <Button text="Cadastrar Usuário" onAction="#cadastrarUsuario" styleClass="button"/>
+    </VBox>
 
-    <Button text="Cadastrar Usuário" onAction="#cadastrarUsuario"/>
+    <Separator prefWidth="320"/>
 
-    <Separator prefWidth="300"/>
-
-    <Label fx:id="lblMediaAvaliacao" text="Média de avaliações: 0.0" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+    <Label fx:id="lblMediaAvaliacao" text="Média de avaliações: 0.0" styleClass="info"/>
 </VBox>

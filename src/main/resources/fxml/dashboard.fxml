@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.chamadopro.controller.DashboardController"
-            stylesheets="@/css/estilo.css">
+            stylesheets="@/css/dashboard.css">
 
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header">
@@ -16,8 +17,9 @@
     </top>
 
     <center>
-        <StackPane fx:id="conteudoCentral" styleClass="main-container">
-            <VBox fx:id="painelContainer" alignment="CENTER" spacing="15" StackPane.alignment="CENTER"/>
-        </StackPane>
+        <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="scroll-pane">
+            <VBox fx:id="painelContainer" alignment="CENTER" spacing="20" styleClass="button-grid"/>
+        </ScrollPane>
     </center>
+
 </BorderPane>

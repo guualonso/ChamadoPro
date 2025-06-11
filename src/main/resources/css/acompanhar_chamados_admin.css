@@ -1,0 +1,37 @@
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+.main-container {
+    -fx-alignment: center;
+    -fx-padding: 30;
+    -fx-spacing: 20;
+}
+
+.header-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.filter-box {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 4);
+}
+
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}

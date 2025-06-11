@@ -1,0 +1,52 @@
+.root, .main-container {
+    -fx-background-color: #f4f6f9;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-padding: 30;
+}
+
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2f3e46;
+}
+
+.card-list {
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-color: #dcdcdc;
+    -fx-padding: 10;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0.5, 0, 4);
+}
+
+.input {
+    -fx-pref-width: 280;
+    -fx-padding: 8 12;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #cccccc;
+}
+
+.input:focused {
+    -fx-border-color: #26c6da;
+    -fx-background-color: #ffffff;
+}
+
+.button {
+    -fx-background-color: #26c6da;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #00acc1;
+}
+
+.info {
+    -fx-font-size: 14px;
+    -fx-text-fill: #37474f;
+    -fx-font-weight: bold;
+}

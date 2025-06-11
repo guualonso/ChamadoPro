@@ -53,11 +53,6 @@ public class AbrirChamadoController {
 
         Usuario tecnico = usuarioService.buscarPrimeiroTecnicoDisponivel();
 
-        if (tecnico == null) {
-            showAlert("Nenhum técnico disponível no momento.", Alert.AlertType.WARNING);
-            return;
-        }
-
         Chamado novoChamado = new Chamado(
                 0,
                 titulo,

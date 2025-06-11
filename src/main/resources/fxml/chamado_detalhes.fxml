@@ -4,31 +4,33 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="15" alignment="TOP_LEFT" xmlns="http://javafx.com/javafx"
+<VBox spacing="20" alignment="TOP_LEFT" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.chamadopro.controller.ChamadoDetalhesController"
       stylesheets="@../css/chamado_detalhes.css"
->
+      styleClass="main-container">
+
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets top="20" right="30" bottom="20" left="30"/>
     </padding>
 
-    <Label text="Detalhes do Chamado" styleClass="titulo"/>
+    <Label text="Detalhes do Chamado" styleClass="header-label"/>
 
-    <Label fx:id="lblTitulo" styleClass="subtitulo"/>
-    <Label text="Descrição:" style="-fx-font-weight: bold;"/>
-    <TextArea fx:id="txtDescricao" editable="false" wrapText="true" prefRowCount="3" />
+    <Label fx:id="lblTitulo" styleClass="card-label"/>
 
+    <Label text="Descrição:" styleClass="section-label"/>
+    <TextArea fx:id="txtDescricao" editable="false" wrapText="true" prefRowCount="3" styleClass="text-area"/>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Status:" style="-fx-font-weight: bold;"/>
+        <Label text="Status:" styleClass="section-label"/>
         <Label fx:id="lblStatus"/>
     </HBox>
 
-    <Label text="Comentários:" style="-fx-font-weight: bold;"/>
-    <ListView fx:id="listComentarios" prefHeight="200" prefWidth="400"/>
+    <Label text="Comentários:" styleClass="section-label"/>
+    <ListView fx:id="listComentarios" prefHeight="200" prefWidth="400" styleClass="card"/>
 
-    <Label text="Adicionar Comentário:"/>
-    <TextArea fx:id="txtNovoComentario" prefRowCount="3"/>
-    <Button text="Enviar Comentário" onAction="#enviarComentario"/>
+    <Label text="Adicionar Comentário:" styleClass="section-label"/>
+    <TextArea fx:id="txtNovoComentario" prefRowCount="3" styleClass="text-area"/>
+
+    <Button text="Enviar Comentário" onAction="#enviarComentario" styleClass="button"/>
 </VBox>

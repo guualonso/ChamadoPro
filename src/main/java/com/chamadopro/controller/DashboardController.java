@@ -38,7 +38,7 @@ public class DashboardController {
             case ADMIN -> {
                 adicionarBotao("Gerenciar Usuários", this::abrirTelaGerenciarUsuarios);
                 adicionarBotao("Atribuir Técnico", this::abrirTelaAtribuirChamado);
-                adicionarBotao("Visualizar Todos os Chamados", this::abrirTelaVisualizarTodosChamados);
+                adicionarBotao("Todos os Chamados", this::abrirTelaVisualizarTodosChamados);
             }
             case TECNICO -> adicionarBotao("Visualizar Chamados", this::abrirTelaAtualizarChamado);
             case CLIENTE -> {
@@ -99,8 +99,25 @@ public class DashboardController {
 
     @FXML
     private void abrirTelaAcompanhamento() {
-        abrirNovaJanelaComUsuario("/fxml/acompanhar_chamados.fxml", "Acompanhar Chamados");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/acompanhar_chamados.fxml"));
+            Parent root = loader.load();
+
+            AcompanharChamadosController controller = loader.getController();
+            controller.setUsuarioLogado(usuarioLogado);
+
+            Stage stage = new Stage();
+            stage.setTitle("Acompanhar Chamados");
+
+            stage.setScene(new Scene(root, 900, 650));
+            stage.setResizable(false);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void abrirTelaAtualizarChamado() {
